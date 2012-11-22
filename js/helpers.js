@@ -212,5 +212,17 @@ var helper = {
     sVersion = "7";
     if(typeof(version)!="undefined") sVersion = version.toString();
     return ($.browser.msie * jQuery.browser.version.substr(0, 1) <= sVersion );
-  }        
+  },
+  
+  stopPropagation : function(event){
+    if(window.event){
+      var e = window.event;
+      e.cancelBubble = true;
+      if(e && e.stopPropagation){
+        e.stopPropagation();
+      }
+    }else{
+      event.stopPropagation();
+    }
+  }    
 }

@@ -169,6 +169,20 @@ class boacl extends CommonFunctions
     $GLOBALS['egw']->db->query($sql); 
   }
 
+  /**
+  * Delete a profile from the ACL table
+  * @author tpi
+  **/
+  public function deleteProfile($userId,$siteId){
+    $sql = "DELETE FROM egw_alix_acl
+            WHERE 
+                  CURRENTAPP = '".$this->getCurrentApp(false)."' AND
+                  USERID = '$userId' AND
+                  SITEID = '$siteId'
+            ;";
+    $GLOBALS['egw']->db->query($sql); 
+  }
+
  /**
  * Check if current user has access to the module (or one of the modules listed and separated by a double-pipe)
  * @return boolean true if module is enable for current user
