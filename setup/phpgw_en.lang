@@ -3,3 +3,4 @@ bad_time_format	alixedc	en	The answer to "<b>%1</b>" is a misformatted time (HH:
 bad_datetime_format	alixedc	en	The answer to "<b>%1</b>" is a misformatted date
 bad_numeric_format	alixedc	en	The answer to "<b>%1</b>" is not numeric
 bad_integer_format	alixedc	en	The answer to "<b>%1</b>" is not a valid integer
+enroll_subject	alixedc	en	Enroll subject
