@@ -61,6 +61,13 @@ class uiusers extends CommonFunctions
           $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
         }
       }
+      if($_GET['action']=='deleteProfile'){
+        if($this->m_ctrl->boacl()->checkModuleAccess("ManageUsers")){
+          $htmlRet = $this->getInterfaceProfil();
+        }else{
+          $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
+        }
+      }
       if($_GET['action']=='addUser'){
         if($this->m_ctrl->boacl()->checkModuleAccess("ManageUsers")){
           $htmlRet = $this->getInterfaceProfil();
@@ -245,6 +252,11 @@ class uiusers extends CommonFunctions
         $userId = $_POST['userId'];
       } 
  
+      //Request for deletion of a profile
+      if(isset($_GET['action']) && $_GET['action']=='deleteProfile'){
+        $this->m_ctrl->boacl()->deleteProfile($_GET['userId'],$_GET['siteId']);
+      } 
+ 
       //Request for creation of a user
       if(isset($_GET['action']) && $_GET['action']=='addUser'){
         $this->m_ctrl->bousers()->addUser($_POST['user-login'],$_POST['user-password'],$_POST['user-firstname'],$_POST['user-lastname'],$_POST['user-email']);
@@ -260,6 +272,8 @@ class uiusers extends CommonFunctions
     
       //Build of profiles-site lists
       $htmlUser = "
+      <SCRIPT LANGUAGE='JavaScript' SRC='" . $GLOBALS['egw']->link('/'.$this->getCurrentApp(false).'/js/helpers.js') . "'></SCRIPT>
+      
       <div class='ui-grid ui-widget ui-widget-content ui-corner-all'>
 		    <div class='ui-grid-header ui-widget-header ui-corner-top'>User <span style='color: #dd0000;'>$userId</span> profiles list</div>
         <div class='action_message'>$message</div>
@@ -271,6 +285,7 @@ class uiusers extends CommonFunctions
   					<th class='ui-state-default'> Site name</th>
   					<th class='ui-state-default'> Profile Id</th>
   					<th class='ui-state-default'> Default</th>
+  					<th> </th>
   				</tr>
   			</thead>
         <tbody>";
@@ -283,6 +298,7 @@ class uiusers extends CommonFunctions
                 					<td class='ui-widget-content'>".$profile['siteName']."</td>
                 					<td class='ui-widget-content' name='profileId'>".$profile['profileId']."</td>
                 					<td class='ui-widget-content' name='default'>".$profile['defaultProfile']."</td>
+                					<td class='ui-widget-content' name='delete'><img src='". $this->getCurrentApp(false) ."/templates/default/images/delete_12.png' class='pointer' onclick=\"helper.stopPropagation(event);deleteProfile('".$this->getCurrentApp(false)."','".$userId."','".$profile['siteId']."');\" /></td>
                 				</tr>";
 
 			}

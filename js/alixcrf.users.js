@@ -136,3 +136,10 @@ function loadAlixCRFprofilesJS(CurrentApp){
   	}
   });
 }
+
+function deleteProfile(CurrentApp, userId, siteId){
+  if(confirm("Delete "+userId+"'s profile in site "+siteId+" ?")){
+    newUrl = "index.php?menuaction="+CurrentApp+".uietude.usersInterface&action=deleteProfile&userId="+ userId +"&siteId="+ siteId;
+    $(location).attr('href',newUrl);
+  }
+}
