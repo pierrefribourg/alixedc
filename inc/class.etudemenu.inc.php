@@ -54,9 +54,9 @@ class etudemenu extends CommonFunctions
                                                                          'StudyEventRepeatKey' => $this->m_tblConfig['ENROL_SERK'],
                                                                          'FormOID' => $this->m_tblConfig['ENROL_FORMOID'],
                                                                          'FormRepeatKey' => $this->m_tblConfig['ENROL_FORMRK'])).'">
-                <li class="ui-state-default"><img src="'.$this->getCurrentApp(false).'/templates/default/images/user_add.png" alt="" /><div><p>Enrol Subject</p></div></li></a>';
+                <li class="ui-state-default"><img src="'.$this->getCurrentApp(false).'/templates/default/images/user_add.png" alt="" /><div><p>'. lang(enroll_subject) .'</p></div></li></a>';
     }elseif($this->m_ctrl->boacl()->existUserProfileId(array("CRT","INV"))){
-      $enroll = '<a name="enroll" href="#"><li class="ui-state-default inactiveButton"><img src="'. $this->getCurrentApp(false).'/templates/default/images/user_add.png" alt="" /><div><p>Enrol Subject</p></div></li></a>';
+      $enroll = '<a name="enroll" href="#"><li class="ui-state-default inactiveButton"><img src="'. $this->getCurrentApp(false).'/templates/default/images/user_add.png" alt="" /><div><p>'. lang(enroll_subject) .'</p></div></li></a>';
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

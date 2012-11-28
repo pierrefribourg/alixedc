@@ -3,3 +3,4 @@ bad_time_format	alixedc	fr	La r&eacute;ponse &agrave; "<b>%1</b>" est une heure 
 bad_datetime_format	alixedc	fr	La r&eacute;ponse &agrave; "<b>%1</b>" est une date malform&eacute;e
 bad_numeric_format	alixedc	fr	La r&eacute;ponse &agrave; "<b>%1</b>" n'est pas num&eacute;rique
 bad_integer_format	alixedc	fr	La r&eacute;ponse &agrave; "<b>%1</b>" n'est pas un nombre entier valide
+enroll_subject	alixedc	fr	Inclure un patient
