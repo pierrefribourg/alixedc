@@ -69,7 +69,7 @@ placebo controlled study to assess safety and efficacy of ALIX in 3-25 year old 
 </div>
 
 <div id="toolbar_ico" class="inactif">
-
+  {information}
   <ul>
     <li class="first_item corner_10"><a href="#"><span class="corner_10_top"><img src="phpgwapi/templates/idots/images/alix/user_add_inactif.png" alt="" /></span><p>&nbsp;</p></a></li>
     <li class="item corner_10"><a href="#"><span class="corner_10_top"><img src="phpgwapi/templates/idots/images/alix/user_manage_inactif.png" alt="" /></span><p>&nbsp;</p></a></li>
