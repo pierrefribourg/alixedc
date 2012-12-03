@@ -420,8 +420,8 @@ class bocdiscoo extends CommonFunctions
     {
       foreach($ctrls as $ctrl)
       {
-            $i++; 
-        if($ctrl->getName()!="NoControl"){        
+        $i++; 
+        if($ctrl->getName()!="NoControl"){
           $testXQuery = $this->getXQueryConsistency($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$ctrl);
           try{
             $ctrlResult = $this->m_ctrl->socdiscoo()->query($testXQuery,true,false,true);

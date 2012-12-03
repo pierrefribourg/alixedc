@@ -442,7 +442,7 @@ class boqueries extends CommonFunctions
    * @param string $queryType : 'M' => Mandatory 'C' => Consistency (Hard ou Soft)
    **/
   function updateQueries($SubjectKey, $StudyEventOID, $StudyEventRepeatKey, $FormOID, $FormRepeatKey, $queryType, $queries)
-  {  
+  {
     $this->addLog(__METHOD__."($SubjectKey, $StudyEventOID, $StudyEventRepeatKey, $FormOID, $FormRepeatKey, $queryType, $queries)",INFO);
       
     //HOOK => boqueries_updateQueries_form
@@ -498,7 +498,9 @@ class boqueries extends CommonFunctions
           }
         }
       }else{
-        if($queryDB['IsManual']=='N'){ //CRF can ask for an update of automatically modified queries
+        if($queryDB['IsManual']=='N' //CRF can ask for an update of automatically modified queries
+          || $queryDB['QueryStatus']=='P' //CRF can ask for an update of RESOLUTION PROPOSED queries
+          ){
           $i=0;
           $bFind = false;
           while($i<count($queries) && $bFind == false){
