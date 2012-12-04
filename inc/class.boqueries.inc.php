@@ -94,6 +94,29 @@ class boqueries extends CommonFunctions
   }
 
   /**
+  * Close queries of the specified ItemGroup
+  **/
+  public function closeQueries($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$ItemGroupOID,$ItemGroupRepeatKey){
+    $this->addLog(__METHOD__."($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$ItemGroupOID,$ItemGroupRepeatKey)",INFO);
+    
+    //user identification
+    $userId = $this->m_user;
+    $siteId = $this->m_ctrl->bosubjects()->getSubjectColValue($SubjectKey,"SITEID");
+    $profileId = $this->m_ctrl->boacl()->getUserProfileId("",$siteId);
+    
+    //get queries of this itemgroup
+    $queries = $this->getQueriesList($SubjectKey, $StudyEventOID, $StudyEventRepeatKey, $FormOID, $FormRepeatKey, $ItemGroupOID, $ItemGroupRepeatKey, "", "", "", "Y");
+    //for each queries
+    foreach($queries as $query){
+      //if the query is not already closed
+      if($query["QUERYSTATUS"] != "C"){
+        //close this query
+        $this->closeQuery($query["QUERYID"],$userId,$profileId);
+      }
+    }
+  }
+
+  /**
   * Close query $queryId  
   **/
   function closeQuery($queryId,$userId,$profileId){
@@ -155,7 +178,7 @@ class boqueries extends CommonFunctions
   *                       );
   * @author wlt,tpi
   **/
-  function getQueriesList($SubjectKey="", $StudyEventOID="", $StudyEventRepeatKey="", $FormOID="", $FormRepeatKey="", $ItemGroupOID="", $ItemGroupKey="", $ItemOID="", $position="", $queryStatus="", $isLast="", $where="", $orderBy="", $limit=""){
+  function getQueriesList($SubjectKey="", $StudyEventOID="", $StudyEventRepeatKey="", $FormOID="", $FormRepeatKey="", $ItemGroupOID="", $ItemGroupRepeatKey="", $ItemOID="", $position="", $queryStatus="", $isLast="", $where="", $orderBy="", $limit=""){
      $tblQueries = array();
     $sql = "SELECT QUERYID, SITEID,SUBJKEY,SEOID,SERK,FRMOID,FRMRK,IGOID,IGRK,POSITION,ITEMOID,
                    LABEL,ITEMTITLE,ISMANUAL,BYWHO,BYWHOGROUP,UPDATEDT,
@@ -202,8 +225,8 @@ class boqueries extends CommonFunctions
       $sql .= " AND IGOID='$ItemGroupOID'";
     }
 
-    if($ItemGroupKey!=""){
-      $sql .= " AND IGRK='$ItemGroupKey'";
+    if($ItemGroupRepeatKey!=""){
+      $sql .= " AND IGRK='$ItemGroupRepeatKey'";
     }
 
     if($ItemOID!=""){
@@ -338,7 +361,7 @@ class boqueries extends CommonFunctions
     return $tblQuery;
   }
 
-  function getQueriesCount($SubjectKey="", $StudyEventOID="", $StudyEventRepeatKey="", $FormOID="", $FormRepeatKey="", $ItemGroupOID="", $ItemGroupKey="", $ItemOID="", $position="", $queryStatus="", $isLast="", $where=""){
+  function getQueriesCount($SubjectKey="", $StudyEventOID="", $StudyEventRepeatKey="", $FormOID="", $FormRepeatKey="", $ItemGroupOID="", $ItemGroupRepeatKey="", $ItemOID="", $position="", $queryStatus="", $isLast="", $where=""){
     $tblQueries = array();
 
     $sql = "SELECT COUNT(*) as NBQUERIES
@@ -386,8 +409,8 @@ class boqueries extends CommonFunctions
       $sql .= " AND IGOID='$ItemGroupOID'";
     }
 
-    if($ItemGroupKey!=""){
-      $sql .= " AND IGRK='$ItemGroupKey'";
+    if($ItemGroupRepeatKey!=""){
+      $sql .= " AND IGRK='$ItemGroupRepeatKey'";
     }
 
     if($ItemOID!=""){

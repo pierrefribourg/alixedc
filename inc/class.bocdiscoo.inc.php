@@ -2331,6 +2331,9 @@ class bocdiscoo extends CommonFunctions
     $query = "UPDATE REPLACE \$x in index-scan('SubjectData','$SubjectKey','EQ')/odm:StudyEventData[@StudyEventOID='$StudyEventOID' and @StudyEventRepeatKey='$StudyEventRepeatKey']/odm:FormData[@FormOID='$FormOID' and @FormRepeatKey='$FormRepeatKey']/odm:ItemGroupData[@ItemGroupOID='$ItemGroupOID' and @ItemGroupRepeatKey='$ItemGroupRepeatKey']/@TransactionType
               WITH attribute {'TransactionType'} {'Remove'}";
     $res = $this->m_ctrl->socdiscoo()->query($query);
+    
+    //close the queries of this itemgroup
+    $this->m_ctrl->boqueries()->closeQueries($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$ItemGroupOID,$ItemGroupRepeatKey);
   }
 
   /**
