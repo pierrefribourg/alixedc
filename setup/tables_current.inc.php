@@ -16,11 +16,11 @@
 		),
 	'egw_alix_config' => array(
 		'fd' => array(
-			'CURRENTAPP' => array('type' => 'varchar','precision' => '50','nullable' => False),
-			'PARAMETER' => array('type' => 'varchar','precision' => '30','nullable' => False),
-			'VALUE' => array('type' => 'longtext'),
+			'currentapp' => array('type' => 'varchar','precision' => '50','nullable' => False),
+			'parameter' => array('type' => 'varchar','precision' => '30','nullable' => False),
+			'value' => array('type' => 'longtext'),
 		),
-		'pk' => array('CURRENTAPP','PARAMETER'),
+		'pk' => array('currentapp','parameter'),
 		'fk' => array(),
 		'ix' => array(),
 		'uc' => array()
