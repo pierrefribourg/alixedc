@@ -1362,6 +1362,11 @@ public function checkFormData(){
     //retrieving subjects list
     try{
       $tblSubjectKeys = $this->m_ctrl->bosubjects()->getSubjectsList($siteId, true);
+      //subjects returned ?
+      if(count($tblSubjectKeys)==0){
+        //if no BLANK => throw exception
+        $this->m_ctrl->socdiscoo()->getDocument("ClinicalData",$this->m_tblConfig['BLANK_OID']);
+      }
     }catch(Exception $e){
       die("NOBLANK");
     }

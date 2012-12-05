@@ -105,7 +105,7 @@ class socdiscoo extends CommonFunctions
           
   //Retourne un document sous la forme d'un objet SimpleXMLelement ou DOMDocument
   //Si le document n'est pas trouvé, l'erreur doit être gérée par un try catch dans la fonction appelante
-  function getDocument($collection, $name, $useSimpleXML = true)
+  public function getDocument($collection, $name, $useSimpleXML = true)
   {   
     /* Execute query: list all categories in the document */
     if($collection==""){
