@@ -119,9 +119,9 @@ class etudemenu extends CommonFunctions
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //UserId Link
     if($GLOBALS['egw_info']['user']['apps']['admin']){
-      $userLink = "index.php?menuaction=alixedc.uietude.usersInterface&action=viewUser&userId=". $user['login'];
+      $userLink = "index.php?menuaction=". $this->getCurrentApp(false) .".uietude.usersInterface&action=viewUser&userId=". $user['login'];
     }else{
-      $userLink = "index.php?menuaction=alixedc.uietude.preferencesInterface";
+      $userLink = "index.php?menuaction=". $this->getCurrentApp(false) .".uietude.preferencesInterface";
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
