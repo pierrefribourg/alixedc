@@ -602,10 +602,18 @@ class bocdiscoo extends CommonFunctions
     try{
       $methodResult = $this->m_ctrl->socdiscoo()->query($testXQuery,true,false,true);
     }catch(exception $e){
-      //Error is probably due to the method code.
-      $str = "Derived variable : xQuery error : " . $e->getMessage() . " " . $testXQuery;
-      $this->addLog($str,INFO);
-      return array("error" => $str);
+      $errMsg = $e->getMessage();
+      
+      //maybe just an empty sequence (no value in the document) //test if value to test exists
+      if(stripos($errMsg, "XPTY0004") !== false && $this->getValue($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,"","",$ItemOID,"")==""){
+        return array("result" => "No error. Value not found or empty in the CRF.");
+      }else{
+        //an unknown error
+        //Error is probably due to the method code.
+        $str = "Derived variable : xQuery error : " . $errMsg . " " . $testXQuery;
+        $this->addLog($str,INFO);
+        return array("error" => $str);
+      }
     }
 
     $computedValue = (string)$methodResult[0]->Result;
