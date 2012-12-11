@@ -2379,13 +2379,22 @@ class bocdiscoo extends CommonFunctions
       $studyEventRef = $this->m_ctrl->socdiscoo()->query($query);
       
       $nextStudyEventOID = (string)$studyEventRef[0]['StudyEventOID'];
+      if($nextStudyEventOID!=""){
+        //we will add the new StudyEvent before this StudyEventOID
+        $insertAt = "preceding index-scan('SubjectData','$SubjectKey','EQ')/odm:StudyEventData[@StudyEventOID='$nextStudyEventOID']";
+        $actionMsg = "preceding $nextStudyEventOID";
+      }else{
+        //we will add the new StudyEvent after the last StudyEvent
+        $insertAt = "following index-scan('SubjectData','$SubjectKey','EQ')/odm:StudyEventData[last()]";
+        $actionMsg = "following $prevStudyEventOID/$prevStudyEventRepeatKey";
+      }
       
       $query = "declare default element namespace '".$this->m_tblConfig['SEDNA_NAMESPACE_ODM']."';
                 UPDATE
                 insert <StudyEventData StudyEventOID='$StudyEventOID' StudyEventRepeatKey='$StudyEventRepeatKey' TransactionType='Insert'/>
-                preceding index-scan('SubjectData','$SubjectKey','EQ')/odm:StudyEventData[@StudyEventOID='$nextStudyEventOID']";
+                $insertAt";
       $this->m_ctrl->socdiscoo()->query($query);
-      $this->addLog("bocdiscoo()->saveItemGroupData() Adding StudyEventOID=$StudyEventOID StudyEventRepeatKey=$StudyEventRepeatKey preceding$nextStudyEventOID",INFO);  
+      $this->addLog("bocdiscoo()->saveItemGroupData() Adding StudyEventOID=$StudyEventOID StudyEventRepeatKey=$StudyEventRepeatKey $actionMsg",INFO);
     }else{
       if($result->length!=1){
         $str = "Error duplicate entry StudyEventData[@StudyEventOID='$StudyEventOID' @StudyEventRepeatKey='$StudyEventRepeatKey] (". __METHOD__ .")";

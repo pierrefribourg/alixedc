@@ -72,7 +72,7 @@
        <!--Button to add Follow up visit--> 
        <h4 id="btnAddFollowUp" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all ui-state-highlight">
          <xsl:variable name="newStudyEventRepeatKey"><xsl:value-of select="count(h3[@StudyEventOID='FW' and @StudyEventRepeatKey!='0'])+1"/></xsl:variable>
-         <xsl:variable name="url">index.php?menuaction=<xsl:value-of select="$CurrentApp"/>.uietude.subjectInterface&amp;action=addVisit&amp;SubjectKey=<xsl:value-of select="$SubjectKey"/>&amp;StudyEventOID=FW&amp;StudyEventRepeatKey=<xsl:value-of select="$newStudyEventRepeatKey"/>&amp;FormOID=FORM.SVFW&amp;FormRepeatKey=0</xsl:variable>
+         <xsl:variable name="url">index.php?menuaction=<xsl:value-of select="$CurrentApp"/>.uietude.subjectInterface&amp;SubjectKey=<xsl:value-of select="$SubjectKey"/>&amp;StudyEventOID=FW&amp;StudyEventRepeatKey=<xsl:value-of select="$newStudyEventRepeatKey"/>&amp;FormOID=FORM.SVFW&amp;FormRepeatKey=0</xsl:variable>
          <a href="{$url}">Add Follow Up Visit</a>
        </h4>
    </xsl:copy> 
@@ -116,7 +116,7 @@
     <div class="FormTitle">
       <span>&#160;</span>
       <xsl:variable name="newFormRepeatKey"><xsl:value-of select="count(../..//div[@FormOID='FORM.AE' and @FormRepeatKey!='0'])+1"/></xsl:variable>
-      <xsl:variable name="url">index.php?menuaction=<xsl:value-of select="$CurrentApp"/>.uietude.subjectInterface&amp;action=addForm&amp;SubjectKey=<xsl:value-of select="$SubjectKey"/>&amp;StudyEventOID=AE&amp;StudyEventRepeatKey=0&amp;FormOID=FORM.AE&amp;FormRepeatKey=<xsl:value-of select="$newFormRepeatKey"/></xsl:variable>
+      <xsl:variable name="url">index.php?menuaction=<xsl:value-of select="$CurrentApp"/>.uietude.subjectInterface&amp;SubjectKey=<xsl:value-of select="$SubjectKey"/>&amp;StudyEventOID=AE&amp;StudyEventRepeatKey=0&amp;FormOID=FORM.AE&amp;FormRepeatKey=<xsl:value-of select="$newFormRepeatKey"/></xsl:variable>
       <a href="{$url}">Add a new Adverse Event...</a>
     </div>
   </xsl:copy>   
