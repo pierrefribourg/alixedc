@@ -46,7 +46,12 @@ function loadAlixCRFjs(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepe
   m_StudyEventOID = StudyEventOID;
   m_StudyEventRepeatKey = StudyEventRepeatKey;
   m_FormOID = FormOID;
-  m_FormRepeatKey = FormRepeatKey;  
+  m_FormRepeatKey = FormRepeatKey;
+  
+  //we force the saving for every ItemGroup when the form is still EMPTY (ie to test mandatories on a list of predefined ItemGroups)
+  if(FormStatus=="EMPTY"){
+    bForceSave = true;
+  } 
   
   //Bind des buttons
   $("#btnSave").click(function(){
