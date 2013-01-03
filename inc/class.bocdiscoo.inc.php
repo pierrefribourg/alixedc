@@ -317,18 +317,20 @@ class bocdiscoo extends CommonFunctions
       foreach($methods as $method)
       {
           $testXQuery = $this->getXQueryConsistency($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$method);
+          $exceptionOccured = false;
           try{
             $methodResult = $this->m_ctrl->socdiscoo()->query($testXQuery,true,false,true);
           }catch(exception $e){
             //Error is probably due to the method code. Error is not display to the user, and administrator notified by email 
             $str = "Derived variable : xQuery error : " . $e->getMessage() . " " . $testXQuery;
             $this->addLog($str,ERROR);
+            $exceptionOccured = true;
           }
     
           $lastValue = (string)$method['ItemValue'];
           $computedValue = (string)$methodResult[0]->Result;
           $this->addLog(__METHOD__ ." Method[{$StudyEventOID}][{$FormOID}][{$method['ItemGroupOID']}][{$method['ItemGroupRepeatKey']}]['{$method['ItemOID'] }'] => Result=" . $methodResult[0]->Result, INFO);
-          if($lastValue!=$computedValue){
+          if($lastValue!=$computedValue && $exceptionOccured==false){
             if($computedValue==""){
               $dataType = "Any";
             }else{
