@@ -1361,14 +1361,17 @@ public function checkFormData(){
        
     //retrieving subjects list
     try{
+      //if no subject => throw exception
       $tblSubjectKeys = $this->m_ctrl->bosubjects()->getSubjectsList($siteId, true);
-      //subjects returned ?
-      if(count($tblSubjectKeys)==0){
-        //if no BLANK => throw exception
-        $this->m_ctrl->socdiscoo()->getDocument("ClinicalData",$this->m_tblConfig['BLANK_OID']);
-      }
     }catch(Exception $e){
-      die("NOBLANK");
+      //may have no subject (ok) or no BLANK (ko)
+      //if no BLANK => throw exception
+      try{
+        $this->m_ctrl->socdiscoo()->getDocument("ClinicalData",$this->m_tblConfig['BLANK_OID']);
+        $tblSubjectKeys = array();
+      }catch(Exception $e){
+        die("NOBLANK");
+      }
     }
 
     //pagination

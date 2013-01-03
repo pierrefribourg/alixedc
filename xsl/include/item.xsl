@@ -139,6 +139,7 @@
           <!--Item de type date-->
           <xsl:when test="$Item/@DataType='date' or $Item/@DataType='partialDate'">
             <xsl:element name="span">
+              <xsl:attribute name="name">day</xsl:attribute>
               <xsl:if test="$Item/@DataType='partialDate'">
                 <xsl:attribute name="class">optionalText inputItem</xsl:attribute>
               </xsl:if> 
@@ -168,6 +169,7 @@
               <xsl:attribute name="size">2</xsl:attribute>
             </xsl:element> 
             <xsl:element name="span">
+              <xsl:attribute name="name">month</xsl:attribute>
               <xsl:if test="$Item/@DataType='partialDate'">
                 <xsl:attribute name="class">optionalText</xsl:attribute>
               </xsl:if> 
@@ -195,13 +197,16 @@
               <xsl:attribute name="name">text_mm_<xsl:value-of select="$ItemOID"/>_<xsl:value-of select="$CurrentItemGroupRepeatKey"/></xsl:attribute>
               <xsl:attribute name="maxlength">2</xsl:attribute>
               <xsl:attribute name="size">2</xsl:attribute>
-            </xsl:element> 
-            <xsl:choose>
-              <xsl:when test="$lang='el'">Έτος:</xsl:when>
-              <xsl:when test="$lang='fr'">Année:</xsl:when>
-              <xsl:when test="$lang='de'">Jahr:</xsl:when>
-              <xsl:otherwise>year:</xsl:otherwise>
-            </xsl:choose>
+            </xsl:element>
+            <xsl:element name="span">
+              <xsl:attribute name="name">year</xsl:attribute>
+              <xsl:choose>
+                <xsl:when test="$lang='el'">Έτος:</xsl:when>
+                <xsl:when test="$lang='fr'">Année:</xsl:when>
+                <xsl:when test="$lang='de'">Jahr:</xsl:when>
+                <xsl:otherwise>year:</xsl:otherwise>
+              </xsl:choose>
+            </xsl:element>
             <xsl:element name="input">
               <xsl:attribute name="type">text</xsl:attribute>
               <xsl:attribute name="class">inputText inputItem</xsl:attribute>

@@ -146,7 +146,9 @@ class etudemenu extends CommonFunctions
                 ".$toolsButtons."
                 ".$logout."
               </ul>
-            </div>";
+            </div>
+            <script>var userId = '".strtolower($user['login'])."'</script>
+            <script language='JavaScript' src='".$GLOBALS['egw']->link('/'.$this->getCurrentApp(false).'/js/debug.js',array())."'></script>";
     
     
     //HOOK => etudemenu_getMenu_htmlContent

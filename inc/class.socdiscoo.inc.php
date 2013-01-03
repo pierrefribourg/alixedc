@@ -479,7 +479,7 @@ class socdiscoo extends CommonFunctions
     }
     
     //loading module
-    $query = "LOAD MODULE '/var/www/alix/docs/demo/alixedc/xquery/alix.xqlib'";
+    $query = "LOAD MODULE '$strLib'";
     if(!sedna_execute($query)){
       if(sedna_ercls() != "SE1073"){ //Module with the same name already exists.
         $str = "Could create module '$query': " . sedna_error() ." (". __METHOD__ .")";

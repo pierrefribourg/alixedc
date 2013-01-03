@@ -871,6 +871,7 @@ class bocdiscoo extends CommonFunctions
                                FlagValue=\"{\$FlagValue}\"
                                ItemGroupOID=\"{\$ItemGroupOID}\"
                                ItemGroupRepeatKey=\"{\$ItemGroupRepeatKey}\"
+                               ItemGroupDescription=\"{\$ItemGroupDef/odm:Description/odm:TranslatedText[@xml:lang='{$this->m_lang}']/text()}\"
                                AuditRecordID=\"{\$ItemData/@AuditRecordID}\"
                                Mandatory=\"{\$ItemRef/@Mandatory}\"
                                FormalExpression=\"{\$CollectionException/odm:FormalExpression[@Context='XQuery']/string()}\"
@@ -909,7 +910,7 @@ class bocdiscoo extends CommonFunctions
                          );       
       
       if($error["Description"]==""){
-        $errorToAdd["Description"] = ($error["ItemGroupRepeatKey"]!="0"?"[line #".$error["ItemGroupRepeatKey"] . "] ":"") . $error["Title"] . " " . lang("is mandatory");  
+        $errorToAdd["Description"] = ($error["ItemGroupRepeatKey"]!="0"?"[".$error['ItemGroupDescription']." #".$error["ItemGroupRepeatKey"] . "] ":"") . $error["Title"] . " " . lang("is mandatory");  
       }
       
       $testExpr = "";
