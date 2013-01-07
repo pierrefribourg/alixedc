@@ -74,7 +74,7 @@
           <xsl:when test="$Item/@MethodOID!=''">
             <xsl:if test="$ItemValue=''">_<!--show an empy field with an underscore when value is empty or missing, an icon would be better ? only when value is missing ?-->
             </xsl:if>
-            <xsl:value-of select="$ItemValue"/>
+            <span name='method'><xsl:value-of select="$ItemValue"/></span>
         	  <xsl:element name="input">
               <xsl:attribute name="type">hidden</xsl:attribute>
               <xsl:attribute name="value"><xsl:value-of select="$ItemValue"/></xsl:attribute>
