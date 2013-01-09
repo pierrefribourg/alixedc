@@ -445,8 +445,11 @@ class bocdiscoo extends CommonFunctions
             if($nbS>0){
               $tblParams = explode(' ',$ctrlResult[0]->Decode);
               if(count($tblParams)<$nbS){
+                $nbParamToAdd = $nbS-count($tblParams); 
                 //May occur if the first decode item returns an empty string
-                array_unshift($tblParams,"");
+                for($i=0;$i<$nbParamToAdd;$i++){
+                  array_unshift($tblParams,"");
+                }
               }
               $tblParams = str_replace("¤", " ", $tblParams); //restauration des espaces ' ' substitués (par des '¤', cf getXQueryConsistency())
               $ctrl['ErrorMessage'] = str_replace("\"","'",$ctrl['ErrorMessage']);
