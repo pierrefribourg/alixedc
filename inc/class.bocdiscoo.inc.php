@@ -443,7 +443,11 @@ class bocdiscoo extends CommonFunctions
             //On doit passer par un eval pour gérer les décodes multiples, que l'on passe en param de la func sprintf()
             $nbS = substr_count($ctrl['ErrorMessage'],"%s");
             if($nbS>0){
-              $tblParams = explode(' ',$ctrlResult[0]->Decode . str_pad("",$nbS));
+              $tblParams = explode(' ',$ctrlResult[0]->Decode);
+              if(count($tblParams)<$nbS){
+                //May occur if the first decode item returns an empty string
+                array_unshift($tblParams,"");
+              }
               $tblParams = str_replace("¤", " ", $tblParams); //restauration des espaces ' ' substitués (par des '¤', cf getXQueryConsistency())
               $ctrl['ErrorMessage'] = str_replace("\"","'",$ctrl['ErrorMessage']);
               $cmdEval = "\$desc = sprintf(\"".$ctrl['ErrorMessage']."\",\"".implode('","',$tblParams)."\");";
