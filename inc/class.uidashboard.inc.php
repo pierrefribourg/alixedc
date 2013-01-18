@@ -157,7 +157,7 @@ class uidashboard extends CommonFunctions
 			</thead>
       <tbody>";
 		
-		$tblSite = $this->m_ctrl->bosites()->getSites();
+    $tblSite = $this->m_ctrl->bosites()->getSites("CRT,INV");
 
     $query = "let \$SubjectsCol := collection('ClinicalData')/odm:ODM/odm:ClinicalData/odm:SubjectData
               for \$SubjectData in \$SubjectsCol
@@ -241,7 +241,7 @@ class uidashboard extends CommonFunctions
                                                 odm:FormData[@FormOID='{$this->m_tblConfig['SUBJECT_LIST']['COLS']['INCLUSIONDATE']['Value']['FRMOID']}' and @FormRepeatKey='{$this->m_tblConfig['SUBJECT_LIST']['COLS']['INCLUSIONDATE']['Value']['FRMRK']}']/
                                                 odm:ItemGroupData[@ItemGroupOID='{$this->m_tblConfig['SUBJECT_LIST']['COLS']['INCLUSIONDATE']['Value']['IGOID']}' and @ItemGroupRepeatKey='{$this->m_tblConfig['SUBJECT_LIST']['COLS']['INCLUSIONDATE']['Value']['IGRK']}']/
                                                 odm:*[@ItemOID='{$this->m_tblConfig['SUBJECT_LIST']['COLS']['INCLUSIONDATE']['Value']['ITEMOID']}'][last()]
-                  where \$INCLUSIONDATE!='' and \$INCLUSIONDATE lt '$toDate'
+                  where \$INCLUSIONDATE!='' and \$INCLUSIONDATE le '$toDate'
                   return
                   <Subject     
                        SubjectKey='{\$SubjectData/@SubjectKey}'

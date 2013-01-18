@@ -2234,7 +2234,7 @@ class bocdiscoo extends CommonFunctions
     $this->expressionForExpressionUpdate = "";
     $this->handeldExpressionsForExpressionUpdate = array(); 
     //functions list to be factorized
-    $xQueryFunctions = array("alix:getValue","alix:getRawValue","alix:getAnnotation","count","max","count"); //,"compareDate","DateISOtoFR","days-from-duration","getMonth"
+    $xQueryFunctions = array("alix:getValue","alix:getRawValue","alix:getAnnotation"); //,"count","max","count"); //,"compareDate","DateISOtoFR","days-from-duration","getMonth"
     $expressions = array();
     foreach($xQueryFunctions as $xQueryFunction){
       $expressions[] = "((". $xQueryFunction .")(\([^\(\)]*\)))"; //Function signature
