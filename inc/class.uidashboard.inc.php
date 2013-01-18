@@ -157,7 +157,7 @@ class uidashboard extends CommonFunctions
 			</thead>
       <tbody>";
 		
-		$tblSite = $this->m_ctrl->bosites()->getSites();
+    $tblSite = $this->m_ctrl->bosites()->getSites("CRT,INV");
 
     $query = "let \$SubjectsCol := collection('ClinicalData')/odm:ODM/odm:ClinicalData/odm:SubjectData
               for \$SubjectData in \$SubjectsCol
