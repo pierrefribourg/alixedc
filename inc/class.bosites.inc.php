@@ -88,15 +88,26 @@ class bosites extends CommonFunctions
   
   /*
   @desc retourne la liste de tous les centres (de l'application en cours)
+  @param $profiles, a list of accepted profiles => array or string seprated by commas, e.g. INV,CRA,DM
   @return array(siteId,sitename)
   @author wlt
   */ 
-  public function getSites(){
+  public function getSites($profiles=""){
     $tblRet = array();
+    
+    //Filter site profile
+    $whereProfile = "";
+    if($profiles!=""){
+      if(!is_array($profiles)) $profiles = explode(",",$profiles);
+      $profiles = implode("','",$profiles);
+      $whereProfile = " AND SITEPROFILEID in ('". $profiles ."')";
+    }
+    
     //Recuperation de la liste des centres
     $sql = "SELECT SITEID,SITENAME,SITEPROFILEID,COUNTRY,CHECKONSAVE
             FROM egw_alix_sites
             WHERE CURRENTAPP='".$this->getCurrentApp(false)."'
+            $whereProfile
             ORDER BY SITEID";
     
     $GLOBALS['egw']->db->query($sql); 
