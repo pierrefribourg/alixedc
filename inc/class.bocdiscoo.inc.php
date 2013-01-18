@@ -2260,30 +2260,17 @@ class bocdiscoo extends CommonFunctions
     $testExprDecode = "";
     if($ctrl['FormalExpressionDecode']!=""){
       $testExprDecode = $ctrl['FormalExpressionDecode'];
-      $tblTestExprDecode = explode("|",$testExprDecode);
-      $queryDecode = "";
-      foreach($tblTestExprDecode as $expr){
-        $queryDecode .= "<Decode>
-                         {
-                          $expr
-                         }
-                         </Decode>";  
-      } 
-      /*
-      $testExprDecode = str_replace("alix:getDecode($","replace(alix:getDecode($",$testExprDecode); //added TPI 20110830
-      $testExprDecode = str_replace("getDecode()","replace(alix:getDecode(\$ItemData,\$SubjectData,\$MetaDataVersion),' ','¤')",$testExprDecode);
-      $testExprDecode = str_replace("getDecode('","replace(alix:getDecode(\$ItemData,\$SubjectData,\$MetaDataVersion,'",$testExprDecode);
-      
-      $testExprDecode = str_replace("')","'),' ','¤')",$testExprDecode);
-      */
-      /*
+
+      //To handle space char in values returned by getDecode xQuery function
+      $testExprDecode = str_replace("alix:getDecode(\$ItemData,\$MetaDataVersion)","replace(alix:getDecode(\$ItemData,\$MetaDataVersion),' ','¤')",$testExprDecode);
+      $testExprDecode = preg_replace("/.*(alix:getDecode\(\\\$ItemData,\\\$MetaDataVersion,'[A-Za-z0-9\.]*'\))(.*)/","replace($1,' ','¤')$2",$testExprDecode);
+
       $testExprDecode = "
             <Decode>
             {
               $testExprDecode
             }
             </Decode>";
-      */
     }
     
     //Création de la requête de test pour l'ItemData en cours
@@ -2322,7 +2309,7 @@ class bocdiscoo extends CommonFunctions
             $testExprOptimized
           }
           </Result>
-          $queryDecode
+          $testExprDecode
         </Ctrl>";
     return $testXQuery;
   }
