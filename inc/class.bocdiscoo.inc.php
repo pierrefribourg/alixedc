@@ -2263,7 +2263,7 @@ class bocdiscoo extends CommonFunctions
 
       //To handle space char in values returned by getDecode xQuery function
       $testExprDecode = str_replace("alix:getDecode(\$ItemData,\$MetaDataVersion)","replace(alix:getDecode(\$ItemData,\$MetaDataVersion),' ','¤')",$testExprDecode);
-      $testExprDecode = preg_replace("/.*(alix:getDecode\(\\\$ItemData,\\\$MetaDataVersion,'[A-Za-z0-9\.]*'\))(.*)/","replace($1,' ','¤')$2",$testExprDecode);
+      $testExprDecode = preg_replace("/(.*)(alix:getDecode\(\\\$ItemData,\\\$MetaDataVersion,'[A-Za-z0-9\.]*'\))(.*)/","$1 replace($2,' ','¤')$3",$testExprDecode);
 
       $testExprDecode = "
             <Decode>
