@@ -77,6 +77,7 @@ class bosubjects extends CommonFunctions
               <Subjects>
               {  
                 for \$SubjectData in \$Subjects
+                order by \$SubjectData/@SubjectKey
                 return
                   <SubjectData SubjectKey='{\$SubjectData/@SubjectKey}' />
               }
