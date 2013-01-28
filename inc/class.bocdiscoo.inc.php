@@ -790,7 +790,7 @@ class bocdiscoo extends CommonFunctions
             if(!$isBadFormated){
               //In any case, check year. Note that the mktime fonction does not support year lower than 1901
               if($yy!=""){
-                if($yy<=1901 || $yy>date('Y')+5){
+                if($yy<=1901 || $yy>date('Y')+10){
                   $isBadFormated = true;
                 }
               }

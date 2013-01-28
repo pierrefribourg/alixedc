@@ -282,7 +282,7 @@ function bocdiscoo_getNewPatientID_customSubjId($bocdiscoo){
   catch(xmlexception $e)
   {
     $str = "Query error : " . $e->getMessage() . " : " . $query . " (". __METHOD__ .")";
-    $bocdiscoo->addLog("bocdiscoo->getNewPatientID() Error : $str",FATAL);
+    $bocdiscoo->addLog(__MEHTOD__." error : $str",FATAL);
     die($str);
   }
   

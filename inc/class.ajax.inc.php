@@ -308,7 +308,7 @@ public function checkFormData(){
     $response = new StdClass;
   
     //Extracting parameters       
-    $MetaDataVersion = "1.0.0";
+    $MetaDataVersion = $this->m_tblConfig["METADATAVERSION"];
     $SubjectKey = "";
     $StudyEventOID = "";
     $StudyEventRepeatKey = "";
@@ -628,7 +628,6 @@ public function checkFormData(){
   public function setFileContent(){
     $this->addlog(__METHOD__ ." : _POST=".$this->dumpRet($_POST),TRACE);  
     
-    //print_r($_POST);
     $file = $_POST['file'];
     $content = $_POST['content'];
     $content = urldecode($content);
@@ -713,7 +712,7 @@ public function checkFormData(){
     $response = new StdClass;
 
     //Extracting parameters       
-    $MetaDataVersion = "1.0.0";
+    $MetaDataVersion = $this->m_tblConfig["METADATAVERSION"];
     $SubjectKey = "";
     $StudyEventOID = "";
     $StudyEventRepeatKey = "";
@@ -1147,7 +1146,7 @@ public function checkFormData(){
       }
       echo json_encode($res);
     }else{
-      die("Error : unknown or already closed querie '$QUERYID'.");
+      die("Error : unknown or already closed query '$QUERYID'.");
     }
   }
 
