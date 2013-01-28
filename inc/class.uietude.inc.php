@@ -25,7 +25,7 @@ require_once("class.instanciation.inc.php");
 
 require_once(EGW_SERVER_ROOT . "/".$GLOBALS['egw_info']['flags']['currentapp']."/config.inc.php");
 
-/*@desc joue le role de controlleur pour notre application. C'est ici que les sont centralisés les instanciations à la volée des classe uiXXXXX et boXXXX
+/*@desc joue le role de controlleur pour notre application. C'est ici que les sont centralisï¿½s les instanciations ï¿½ la volï¿½e des classe uiXXXXX et boXXXX
 */
 class uietude extends CommonFunctions
 {
@@ -335,17 +335,19 @@ class uietude extends CommonFunctions
         $testMode = false;
         //In some cases the user can only use the test mode
         $forceTestMode = false;
-    		//These cases are when the user profile is not the same as the site profile
-    		$userProfile = $this->m_ctrl->boacl()->getUserProfile();
-    		if($userProfile['profileId'] != $this->m_ctrl->bosites()->getSiteProfileId($userProfile['siteId'])){
-    		  $forceTestMode = true;
-    		  $testmode = true;
-    		}else{
-    		  //Did the user asked for activation of the test mode ?
+    	//These cases are when the user profile is not the same as the site profile
+    	$userProfile = $this->m_ctrl->boacl()->getUserProfile();
+    	if($userProfile['profileId'] != $this->m_ctrl->bosites()->getSiteProfileId($userProfile['siteId'])
+           && !($userProfile['profileId']=="CRT" && $this->m_ctrl->bosites()->getSiteProfileId($userProfile['siteId'])=="INV") //CRT are legitimate in INV site
+        ){
+    	  $forceTestMode = true;
+    	  $testmode = true;
+    	}else{
+    	  //Did the user asked for activation of the test mode ?
           if(isset($_GET['testmode']) && $_GET['testmode']=='true'){
             $testmode = true;
           }
-    		}
+    	}
         $_SESSION[$this->getCurrentApp(false)]['testmode'] = $testmode;
     		$_SESSION[$this->getCurrentApp(false)]['forcetestmode'] = $forceTestMode;
     		
@@ -385,7 +387,7 @@ class uietude extends CommonFunctions
         require_once('class.uipassword.inc.php');
         $ui = new uipassword($configEtude,$this->m_ctrl);
         
-        //On procède en deux étapes affectation/affichage car getChangeInterface utilise une redirection
+        //On procï¿½de en deux ï¿½tapes affectation/affichage car getChangeInterface utilise une redirection
         $html = $ui->getChangeInterface();
         $this->create_header();
         echo $html;
@@ -512,10 +514,10 @@ class uietude extends CommonFunctions
           $bLock = false; //unfreeze
         }
         
-        //On commence par modifier les statuts des itemgroups demandés
+        //On commence par modifier les statuts des itemgroups demandï¿½s
         $this->m_ctrl->bocdiscoo()->setLock($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$bLock);
         
-        //On retourne ensuite le formulaire demandé
+        //On retourne ensuite le formulaire demandï¿½
         global $configEtude;
         $ui = new uisubject($configEtude,$this->m_ctrl);
         

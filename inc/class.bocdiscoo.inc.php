@@ -317,18 +317,20 @@ class bocdiscoo extends CommonFunctions
       foreach($methods as $method)
       {
           $testXQuery = $this->getXQueryConsistency($SubjectKey,$StudyEventOID,$StudyEventRepeatKey,$FormOID,$FormRepeatKey,$method);
+          $exceptionOccured = false;
           try{
             $methodResult = $this->m_ctrl->socdiscoo()->query($testXQuery,true,false,true);
           }catch(exception $e){
             //Error is probably due to the method code. Error is not display to the user, and administrator notified by email 
             $str = "Derived variable : xQuery error : " . $e->getMessage() . " " . $testXQuery;
             $this->addLog($str,ERROR);
+            $exceptionOccured = true;
           }
     
           $lastValue = (string)$method['ItemValue'];
           $computedValue = (string)$methodResult[0]->Result;
           $this->addLog(__METHOD__ ." Method[{$StudyEventOID}][{$FormOID}][{$method['ItemGroupOID']}][{$method['ItemGroupRepeatKey']}]['{$method['ItemOID'] }'] => Result=" . $methodResult[0]->Result, INFO);
-          if($lastValue!=$computedValue){
+          if($lastValue!=$computedValue && $exceptionOccured==false){
             if($computedValue==""){
               $dataType = "Any";
             }else{
@@ -441,7 +443,14 @@ class bocdiscoo extends CommonFunctions
             //On doit passer par un eval pour gérer les décodes multiples, que l'on passe en param de la func sprintf()
             $nbS = substr_count($ctrl['ErrorMessage'],"%s");
             if($nbS>0){
-              $tblParams = explode(' ',$ctrlResult[0]->Decode . str_pad("",$nbS));
+              $tblParams = explode(' ',$ctrlResult[0]->Decode);
+              if(count($tblParams)<$nbS){
+                $nbParamToAdd = $nbS-count($tblParams); 
+                //May occur if the first decode item returns an empty string
+                for($i=0;$i<$nbParamToAdd;$i++){
+                  array_unshift($tblParams,"");
+                }
+              }
               $tblParams = str_replace("¤", " ", $tblParams); //restauration des espaces ' ' substitués (par des '¤', cf getXQueryConsistency())
               $ctrl['ErrorMessage'] = str_replace("\"","'",$ctrl['ErrorMessage']);
               $cmdEval = "\$desc = sprintf(\"".$ctrl['ErrorMessage']."\",\"".implode('","',$tblParams)."\");";
@@ -2225,7 +2234,7 @@ class bocdiscoo extends CommonFunctions
     $this->expressionForExpressionUpdate = "";
     $this->handeldExpressionsForExpressionUpdate = array(); 
     //functions list to be factorized
-    $xQueryFunctions = array("alix:getValue","alix:getRawValue","alix:getAnnotation","count","max","count"); //,"compareDate","DateISOtoFR","days-from-duration","getMonth"
+    $xQueryFunctions = array("alix:getValue","alix:getRawValue","alix:getAnnotation"); //,"count","max","count"); //,"compareDate","DateISOtoFR","days-from-duration","getMonth"
     $expressions = array();
     foreach($xQueryFunctions as $xQueryFunction){
       $expressions[] = "((". $xQueryFunction .")(\([^\(\)]*\)))"; //Function signature
@@ -2251,30 +2260,17 @@ class bocdiscoo extends CommonFunctions
     $testExprDecode = "";
     if($ctrl['FormalExpressionDecode']!=""){
       $testExprDecode = $ctrl['FormalExpressionDecode'];
-      $tblTestExprDecode = explode("|",$testExprDecode);
-      $queryDecode = "";
-      foreach($tblTestExprDecode as $expr){
-        $queryDecode .= "<Decode>
-                         {
-                          $expr
-                         }
-                         </Decode>";  
-      } 
-      /*
-      $testExprDecode = str_replace("alix:getDecode($","replace(alix:getDecode($",$testExprDecode); //added TPI 20110830
-      $testExprDecode = str_replace("getDecode()","replace(alix:getDecode(\$ItemData,\$SubjectData,\$MetaDataVersion),' ','¤')",$testExprDecode);
-      $testExprDecode = str_replace("getDecode('","replace(alix:getDecode(\$ItemData,\$SubjectData,\$MetaDataVersion,'",$testExprDecode);
-      
-      $testExprDecode = str_replace("')","'),' ','¤')",$testExprDecode);
-      */
-      /*
+
+      //To handle space char in values returned by getDecode xQuery function
+      $testExprDecode = str_replace("alix:getDecode(\$ItemData,\$MetaDataVersion)","replace(alix:getDecode(\$ItemData,\$MetaDataVersion),' ','¤')",$testExprDecode);
+      $testExprDecode = preg_replace("/(.*)(alix:getDecode\(\\\$ItemData,\\\$MetaDataVersion,'[A-Za-z0-9\.]*'\))(.*)/","$1 replace($2,' ','¤')$3",$testExprDecode);
+
       $testExprDecode = "
             <Decode>
             {
               $testExprDecode
             }
             </Decode>";
-      */
     }
     
     //Création de la requête de test pour l'ItemData en cours
@@ -2313,7 +2309,7 @@ class bocdiscoo extends CommonFunctions
             $testExprOptimized
           }
           </Result>
-          $queryDecode
+          $testExprDecode
         </Ctrl>";
     return $testXQuery;
   }

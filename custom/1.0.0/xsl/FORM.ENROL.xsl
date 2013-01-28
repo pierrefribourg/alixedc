@@ -59,7 +59,12 @@
 </xsl:template>
 
 <xsl:template match="input[@name='text_string_ENROL@SITEID_0']">
-  <xsl:copy>
+    <xsl:if test="starts-with($SiteId,'9')">
+    test
+      
+    </xsl:if>
+
+<xsl:copy>
     <xsl:attribute name="value">
       <xsl:value-of select="$SiteId"/>
     </xsl:attribute>
