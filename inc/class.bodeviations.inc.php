@@ -82,7 +82,7 @@ class bodeviations extends CommonFunctions
         $message .= "\n";
         $message .= "Date : ". $GLOBALS['egw']->db->f('UPDATEDT');
         $message = utf8_decode($message);
-        $subject = "TROPHOS SMA : Deviation $action, Site ".$GLOBALS['egw']->db->f('SITEID').", Subject ".$GLOBALS['egw']->db->f('SUBJKEY');
+        $subject = $this->m_tblConfig["APP_NAME"] ." : Deviation $action, Site ".$GLOBALS['egw']->db->f('SITEID').", Subject ".$GLOBALS['egw']->db->f('SUBJKEY');
         $subject = utf8_decode($subject);
         mail($this->m_tblConfig["EMAIL_DEVIATION"], $subject, $message);
       }

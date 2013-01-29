@@ -202,7 +202,6 @@
       'IGRK' => array('type' => 'varchar','precision' => '10','nullable' => False),
       'POSITION' => array('type' => 'int','precision' => '2','nullable' => False),
       'CURRENTAPP' => array('type' => 'varchar','precision' => '20','nullable' => False),
-			'DESCRIPTION' => array('type' => 'longtext'),
       'ITEMTITLE' => array('type' => 'longtext'),
       'ISMANUAL' => array('type' => 'varchar','precision' => '1','nullable' => False),
       'BYWHO' => array('type' => 'varchar','precision' => '50','nullable' => False),

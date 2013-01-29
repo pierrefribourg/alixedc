@@ -584,11 +584,6 @@ class uidbadmin extends CommonFunctions{
                                                                                   'action' => 'viewDocs')) ."'>See $containerName</a><br/>";
       $html .= "</div><br />";
       
-      //Update the subject in the SubjectsList
-      if(is_numeric($fileOID)){
-        $this->m_ctrl->bosubjects()->updateSubjectInList($fileOID);
-      }
-      
       return $html;
     }
   }

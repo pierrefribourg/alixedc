@@ -113,7 +113,6 @@ class etudemenu extends CommonFunctions
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Button: Log out
-    //$logout = '<a name="logout" href="'.$GLOBALS['egw']->link('/index.php',array('menuaction' => $this->getCurrentApp(false).'.uietude.logout')).'"><li class="ui-state-default"><img src="'.$this->getCurrentApp(false).'/templates/default/images/logout2.png" alt="" /><div><p>Logout</p></div></li></a>';
     $logout = '<a name="logout" href="'.$GLOBALS['egw']->link('/index.php',array('menuaction' => $this->getCurrentApp(false).'.uietude.logout')).'"><li class="ui-state-default button_icon_only"><img src="'.$this->getCurrentApp(false).'/templates/default/images/logout2.png" alt="" /></li></a>';
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
