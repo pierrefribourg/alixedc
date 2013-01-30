@@ -1257,8 +1257,6 @@ delimiter = ';' MISSOVER DSD lrecl=32767 firstobs=2;";
   	$dir = $tmp.'/'.$uid;
   	mkdir($dir);  
   	
-  	
-    //1 to 3 - update the working database for export generation
     //1- for each collection create a repository and save each document of the collection in this repository
     $collections = $this->m_ctrl->socdiscoo()->getCollections();
     foreach($collections as $collection){

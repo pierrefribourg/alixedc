@@ -451,6 +451,7 @@ class uidbadmin extends CommonFunctions{
   private function getSandBoxInterface($query=""){
     if($query!=""){
       try{
+        $query = stripslashes($query);
         $result = $this->m_ctrl->socdiscoo()->query($query,true,false,true);
         $resultMsg = $result[0]->asXML();
       }catch(Exception $e){
