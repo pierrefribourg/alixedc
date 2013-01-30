@@ -290,7 +290,7 @@ class uidashboard extends CommonFunctions
                     courbe = $.jqplot('conteneur', [cumul], {
                       height: 450,
                       
-                      title: 'INCLUSIONS',
+                      title: '".$this->m_tblConfig['APP_NAME']."',
                       series:[ 
                           {label:'eCRF inclusions',lineWidth:2, markerOptions:{style:'dimaond'}}, 
                           {show:false,label:'Inclusions by month', renderer:$.jqplot.BarRenderer,rendererOptions:{barWidth : 12}}

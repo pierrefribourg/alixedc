@@ -155,15 +155,7 @@ class uidbadmin extends CommonFunctions{
               }else{
                 $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
               }
-              break;  
-
-        case 'viewDoc' : 
-              if($this->m_ctrl->boacl()->checkModuleAccess("viewDocs")){
-                $htmlRet = $this->viewDoc();
-              }else{
-                $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
-              }
-              break;  
+              break;
         
         case 'initDB' :
               if($this->m_ctrl->boacl()->checkModuleAccess("viewDocs")){
@@ -171,12 +163,15 @@ class uidbadmin extends CommonFunctions{
               }else{
                 $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
               }
-              break;  
-                              
-        case 'updateSubjectStatus' : 
-              $this->m_ctrl->bosubjects()->updateSubjectInList($_GET['doc']);
-              $htmlRet = $this->getMainInterface("ClinicalData");
-              break;            
+              break;   
+        
+        case 'getXmlExport' :
+              if($this->m_ctrl->boacl()->checkModuleAccess("viewDocs")){
+                $htmlRet = $this->getXmlExport();
+              }else{
+                $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
+              }
+              break;       
         
       }        
     }
@@ -227,6 +222,13 @@ class uidbadmin extends CommonFunctions{
         $submenu .= $this->createMenuLink(array('menuaction' => $this->getCurrentApp(false).'.uietude.dbadminInterface',
   				                                                                        'action' => 'sandboxInterface'),
                                             "xQuery Sandbox");
+      }
+      
+      if($this->m_ctrl->boacl()->checkModuleAccess("viewDocs"))
+      {
+        $submenu .= $this->createMenuLink(array('menuaction' => $this->getCurrentApp(false).'.uietude.dbadminInterface',
+  				                                                                        'action' => 'getXmlExport'),
+                                            "Export as XML");
       }
       
       $menu .= $this->getSubMenu("Database", $submenu);
@@ -586,5 +588,26 @@ class uidbadmin extends CommonFunctions{
       
       return $html;
     }
+  }
+  
+  /**
+   *@description return an export of the database as a zipped archive containing XML files
+   *@author TPI
+   */        
+  private function getXmlExport(){
+    //generate export
+    $filepath = $this->m_ctrl->boexport()->runXmlExport();
+    $filename = basename($filepath);
+    
+    //download file
+    $content = ob_get_contents();
+    ob_end_clean();
+    header("Cache-Control: public");
+    header("Content-Description: File Transfer");
+    header("Content-Disposition: attachment; filename=$filename");
+    header("Content-Type: application/zip");
+    header("Content-Transfer-Encoding: binary");
+    
+    readfile($filepath);
   }
 }

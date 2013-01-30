@@ -1243,4 +1243,42 @@ delimiter = ';' MISSOVER DSD lrecl=32767 firstobs=2;";
     }     
     return $sasFormat;
   } 
+  
+  /**
+   *@description generate an zipped archive containing every XML document of the database
+   *@return string filepath: path to the archive
+   *@author TPI
+   */   
+  public function runXmlExport(){
+  
+    //temporary storage of files, before zipping
+    $tmp = sys_get_temp_dir();
+  	$uid = uniqid($type);
+  	$dir = $tmp.'/'.$uid;
+  	mkdir($dir);  
+  	
+  	
+    //1 to 3 - update the working database for export generation
+    //1- for each collection create a repository and save each document of the collection in this repository
+    $collections = $this->m_ctrl->socdiscoo()->getCollections();
+    foreach($collections as $collection){
+      $path = $dir ."/". $collection;
+      if(!is_dir($path)) mkdir($path);
+      $documents = $this->m_ctrl->socdiscoo()->getDocumentsList($collection);
+      foreach($documents as $document){
+        $doc = $this->m_ctrl->socdiscoo()->getDocument($collection, $document, false);
+        $doc->save($path ."/". $document .".xml");
+      }
+    }
+  
+    $fileName = str_replace(" ","_",$this->m_tblConfig['APP_NAME'])."_".date('Y_m_d_H_i').".zip";
+    $filepath = $tmp ."/". $fileName;
+    
+    //$cmd = 'cd '. $dir .';zip -P '. $uid .' -r '.escapeshellarg($filepath).' ./';
+    $cmd = 'cd '. $dir .';zip -r '.escapeshellarg($filepath).' ./';
+    $res = shell_exec($cmd .' 2>&1');
+    //if($res) echo("<br /><div class='debug_dump'><b>Shell response: </b><pre>". $res ."</pre></div>");
+    
+    return $filepath;
+  }
 }
