@@ -40,10 +40,10 @@ declare namespace odm = 'http://www.cdisc.org/ns/odm/v1.3';
     alix:getRawValue($ItemData,'FormOID','ItemGroupOID','ItemOID') => see alix:getRawValue($ItemData,'ItemOID')
     alix:getRawValue($ItemData,'StudyEventOID','FormOID','ItemGroupOID','ItemOID') => see alix:getRawValue($ItemData,'ItemOID')
 
-    alix:getDecode($ItemData,'ItemOID') => Decoded value, use CodeList if available
-    alix:getDecode($ItemData,'ItemGroupOID','ItemOID') => see alix:getDecode($ItemData,'ItemOID')
-    alix:getDecode($ItemData,'FormOID','ItemGroupOID','ItemOID') => see alix:getDecode($ItemData,'ItemOID')
-    alix:getDecode($ItemData,'StudyEventOID','FormOID','ItemGroupOID','ItemOID') => see alix:getDecode($ItemData,'ItemOID')
+    alix:getDecode($ItemData,$MetaDataVersion,'ItemOID') => Decoded value, use CodeList if available
+    alix:getDecode($ItemData,$MetaDataVersion,'ItemGroupOID','ItemOID') => see alix:getDecode($ItemData,'ItemOID')
+    alix:getDecode($ItemData,$MetaDataVersion,'FormOID','ItemGroupOID','ItemOID') => see alix:getDecode($ItemData,'ItemOID')
+    alix:getDecode($ItemData,$MetaDataVersion,'StudyEventOID','FormOID','ItemGroupOID','ItemOID') => see alix:getDecode($ItemData,'ItemOID')
 
     alix:compareDate($dt1 as xs:string,$dt2 as xs:string)
     
