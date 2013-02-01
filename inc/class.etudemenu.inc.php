@@ -109,7 +109,7 @@ class etudemenu extends CommonFunctions
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Button: Tools
-    $toolsButtons = '<a name="tools" href="'.$GLOBALS['egw']->link('/index.php',array('menuaction' => $this->getCurrentApp(false).'.uietude.dbadminInterface')).'"><li class="ui-state-default" id="adminMenu"><img src="'.$GLOBALS['egw_info']['flags']['currentapp'].'/templates/default/images/notification_warning.png" alt="" /><div><p>Tools</p></div></li></a>';
+    $toolsButtons = '<a name="tools" href="'.$GLOBALS['egw']->link('/index.php',array('menuaction' => $this->getCurrentApp(false).'.uietude.dbadminInterface')).'"><li class="ui-state-default" id="adminMenu"><img src="'.$GLOBALS['egw_info']['flags']['currentapp'].'/templates/default/images/tools_64.png" alt="" /><div><p>Tools</p></div></li></a>';
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Button: Log out
