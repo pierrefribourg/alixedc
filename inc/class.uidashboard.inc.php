@@ -212,11 +212,11 @@ class uidashboard extends CommonFunctions
                   }*/
                 </style>";
     
-    //Expected first enrolment: January 2011
-    $year = 2012;
-    $month = 6;
-    $duration = 12; //months
-    $subjects = 25; //50 patients in total.
+    //Study parameters
+    $year = $this->m_tblConfig['CURVE']['START_YEAR']; //year of first enrolment
+    $month = $this->m_tblConfig['CURVE']['START_MONTH']; //month of first enrolment
+    $duration = $this->m_tblConfig['CURVE']['ENROLMENT_DURATION']; //duration of enrolment in months
+    $subjects = $this->m_tblConfig['CURVE']['SUBJECTS_NUMBER']; //expected number of subjects
     
     $xaxis = "";
     $values = "";
@@ -290,9 +290,9 @@ class uidashboard extends CommonFunctions
                     courbe = $.jqplot('conteneur', [cumul], {
                       height: 450,
                       
-                      title: '".$this->m_tblConfig['APP_NAME']."',
+                      title: '".$this->m_tblConfig['CURVE']['TITLE']."',
                       series:[ 
-                          {label:'eCRF inclusions',lineWidth:2, markerOptions:{style:'dimaond'}}, 
+                          {label:'eCRF inclusions',lineWidth:2, markerOptions:{style:'". $this->m_tblConfig['CURVE']['CURVE_MARKER'] ."'}}, 
                           {show:false,label:'Inclusions by month', renderer:$.jqplot.BarRenderer,rendererOptions:{barWidth : 12}}
                       ],
                       legend: {

@@ -97,6 +97,10 @@
   $configEtude["LOG_LONG_EXECUTION"] = true;
   $configEtude["LONG_EXECUTION_VALUE"] = 30;
   
+  //Extensions configuration
+  $configEtude["PATH_TO_AJAXZOOM"] = "/var/www/alix/docs/ajaxzoom";
+  $configEtude["PATH_TO_AJAXZOOM_PICT"] = "/var/www/alix/docs/ajaxzoom/pic/zoom/dicom";
+  
   //Default language
   $configEtude["lang"] = "en";
 
