@@ -292,7 +292,7 @@ class uidashboard extends CommonFunctions
                       
                       title: '".$this->m_tblConfig['CURVE']['TITLE']."',
                       series:[ 
-                          {label:'eCRF inclusions',lineWidth:2, markerOptions:{style:'". $this->m_tblConfig['CURVE']['CURVE_MARKER'] ."'}}, 
+                          {label:'eCRF inclusions',lineWidth:2, markerOptions:{style:'".$this->m_tblConfig['CURVE']['CURVE_MARKER']."'}}, 
                           {show:false,label:'Inclusions by month', renderer:$.jqplot.BarRenderer,rendererOptions:{barWidth : 12}}
                       ],
                       legend: {
