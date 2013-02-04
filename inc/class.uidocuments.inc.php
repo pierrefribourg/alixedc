@@ -75,12 +75,15 @@ class uidocuments extends CommonFunctions
                   <div class='ui-dialog-content ui-widget-content'>";
     
     foreach($this->m_tblConfig['DOCS']['INT'] as $name => $doc){
-      $htmlRet .= "
-                    <div>
-                      <a icon='ui-icon-disk' target='_blank'
-                          href='".$GLOBALS['egw']->link('/'.$this->getCurrentApp(false).'/documents/'.$doc)."'
-                      >$name</a>
-                    </div>";
+      //The access to documents may be restricted by the profile
+      if($doc[1]=="" || $this->m_ctrl->boacl()->existUserProfileId($doc[1])){
+        $htmlRet .= "
+                      <div>
+                        <a icon='ui-icon-disk' target='_blank'
+                            href='".$GLOBALS['egw']->link('/'.$this->getCurrentApp(false).'/documents/'.$doc[0])."'
+                        >$name</a>
+                      </div>";
+      }
     }
     
     //Récupération de la langue de l'utilisateur connecté

@@ -1,9 +1,9 @@
 <?php
     /**************************************************************************\
     * ALIX EDC SOLUTIONS                                                       *
-    * Copyright 2012 Business & Decision Life Sciences                         *
+    * Copyright 2013 Business & Decision Life Sciences                         *
     * http://www.alix-edc.com                                                  *
-    * ------------------------------------------------------------------------ *                                                                       *
+    * ------------------------------------------------------------------------ *
     * This file is part of ALIX.                                               *
     *                                                                          *
     * ALIX is free software: you can redistribute it and/or modify             *
@@ -237,7 +237,8 @@
 
   //Downloadable docmuments for all countries
   $configEtude['DOCS']['INT'] = array(
-                                      "User Guide INV" => "Draft_guide_utilisateur_ALIX.pdf",
+                                      //"Label of the document" => array("Filename in documents", "List of authorized profiles separated by a comme, profiles are CRA, INV (investigator), CRT (clinical research technician), SPO (sposor), DM (data manager)"),
+                                      "User Guide INV" => array("Draft_guide_utilisateur_ALIX.pdf", "CRA,INV,CRT,SPO,DM"),
                                      );
 
   require_once("config.export.inc.php");
