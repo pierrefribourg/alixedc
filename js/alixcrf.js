@@ -59,10 +59,10 @@ function loadAlixCRFjs(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepe
     //Waiting dialog while saving
   	$("#dialog-modal-save").dialog("open");
     
-    //When user click, change color to confirm the button click action
-    $("#btnSave").animate({opacity: 0.25}, 200, function(){
-      saveAllItemGroup(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepeatKey,FormOID,FormRepeatKey,bCheckFormData);
-    });
+    //When user click, change icon to confirm the button click and the ajax process
+    $("#btnSave").addClass("ajax-action");
+    //saveAllItemGroup(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepeatKey,FormOID,FormRepeatKey,bCheckFormData);
+    setTimeout("saveAllItemGroup('"+CurrentApp+"','"+SiteId+"','"+SubjectKey+"','"+StudyEventOID+"','"+StudyEventRepeatKey+"','"+FormOID+"','"+FormRepeatKey+"',"+bCheckFormData+")", 50);
   });
   
   $("#btnCancel").click(function(){
@@ -575,7 +575,7 @@ function saveAllItemGroup(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventR
                   Description = Description.replace(regexp,"");
                   alert(Description);        
                 }
-                $("#btnSave").animate({opacity: 1});
+                $("#btnSave").removeClass("ajax-action");
               }
             }
           });

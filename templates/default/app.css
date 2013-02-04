@@ -980,6 +980,16 @@ table.ItemGroup{
  width : 70px;
  margin:10px;
 }
+#ActionsButtons button.ajax-action{
+ text-indent: -9999px;
+ white-space: nowrap;
+ background-color: #fff;
+ color: #fff;
+ background-image: url('./images/ajax-loader-small.gif');
+ background-repeat: no-repeat;
+ background-position: center center;
+ border-color: #fff;
+}
 
 /* Site creation / User creation / Profile creation and edition
 ------------------------------*/
