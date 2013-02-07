@@ -113,12 +113,13 @@ function loadAlixCRFjs(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepe
     newIGRK = 0;
     
     //Get the new ItemGroupRepeatKey
-    newIGRK = $("form[name='"+ItemGroupOID+"']").first().find("input[name='NewItemGroupRepeatKey']").val();
+    formRef = $("form[name='"+ItemGroupOID+"']").has("input[name='ItemGroupRepeatKey'][value='0']").first();
+    newIGRK = formRef.find("input[name='NewItemGroupRepeatKey']").val();
     //fix a bug with clone with IE7
     if(isOldIE){
-      newForm = helperIE.clone($("form[name='"+ItemGroupOID+"']").first());
+      newForm = helperIE.clone(formRef);
     }else{
-      newForm = $("form[name='"+ItemGroupOID+"']").first().clone();
+      newForm = formRef.clone();
     }
     sourceIGRK = newForm.find("input[name='ItemGroupRepeatKey']").val(); 
     newForm.find("input[name='ItemGroupRepeatKey']").val(newIGRK);
