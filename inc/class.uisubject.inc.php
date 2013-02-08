@@ -436,6 +436,10 @@ Return the toolbox buttons (post-it for CRA)
     if($profileId=="CRA"){
       $htmlRet .= '<button id="btnAddPostIt" class="ui-state-default ui-corner-all" onclick="displayNewPostIt(\''.$SubjectKey.'\',\''.$StudyEventOID.'\',\''.$StudyEventRepeatKey.'\',\''.$FormOID.'\',\''.$FormRepeatKey.'\');"><img src="'.$this->getCurrentApp(false).'/templates/default/images/postit_14.png" style="float:left; margin-right: 3px;" />Add a post-it</button>';
     }
+    //only CRA could check all SDV
+    if($profileId=="CRA"){
+      $htmlRet .= "<button id='btnCheckSDV' class='ui-state-default ui-corner-all' altbox='Source Data Verification: check all items'><input type='checkbox' id='option-sdv-input' style='height: 16px; float: left; margin: 0px 3px 0px 2px;' />SDV</button>";
+    }
     //only CRT and INV could put deviation
     if($profileId=="CRT" || $profileId=="INV"){
       //and only on specified forms

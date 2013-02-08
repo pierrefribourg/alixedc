@@ -114,6 +114,9 @@ function loadAlixCRFjs(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepe
     
     //Get the new ItemGroupRepeatKey
     formRef = $("form[name='"+ItemGroupOID+"']").has("input[name='ItemGroupRepeatKey'][value='0']").first();
+    if(formRef.length==0){ //sometimes the form may be badly created (e.g. the PHP function that recopied the form has not recopied the default empty Itemgroup)
+      formRef = $("form[name='"+ItemGroupOID+"']").first();
+    }
     newIGRK = formRef.find("input[name='NewItemGroupRepeatKey']").val();
     //fix a bug with clone with IE7
     if(isOldIE){
@@ -383,7 +386,30 @@ function loadAlixCRFjs(CurrentApp,SiteId,SubjectKey,StudyEventOID,StudyEventRepe
   //CRA can modify post-it values
   if(ProfileId=='CRA'){
     $("div.PostIt textarea").removeAttr("readonly");
-  } 
+    
+    //option to (un)check all SDV checkboxes
+    $("#btnCheckSDV").click(function(){
+        //change the main icon/checkbox status
+        if($("#btnCheckSDV").attr('checked')){
+          $("#option-sdv-input").removeAttr('checked');
+          $("#btnCheckSDV").removeAttr('checked'); //for IE9
+        }else{
+          $("#option-sdv-input").attr('checked', 'checked');
+          $("#btnCheckSDV").attr('checked', 'checked'); //for IE9
+        }
+        //check/uncheck the SDV checkboxes
+        sdvCB = $("form:has(input[name='ItemGroupRepeatKey'][value!='0'],input[name='Repeating'][value='No']) td.ItemDataAnnot input[type='checkbox'][name^='sdv_']");
+        if(true){ //this fixes a little bug in Firefox for repeated IGs when tr are in forms (selector "form tr" doesn't work)
+          sdvCB2 = $("input[type='checkbox'][name^='sdv_']").filter(function(){ return $(this).attr("name").substring($(this).attr("name").lastIndexOf("_")+1)!="0"});
+          $.merge(sdvCB,sdvCB2);
+        }
+        if($("#btnCheckSDV").attr('checked')){ //use of#btnCheckSDV instead of $(this) for IE9 compatibility
+          sdvCB.attr('checked', 'checked');
+        }else{
+          sdvCB.removeAttr('checked');
+        }
+    });
+  }
 
   //We store form data in a serialized manner to submit only modified forms by user
   $("form").each( 
