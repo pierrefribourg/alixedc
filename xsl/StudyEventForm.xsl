@@ -68,6 +68,7 @@
       <input type="hidden" name="FormRepeatKey" value="{$ItemGroup/../@FormRepeatKey}"/>
       <input type="hidden" name="ItemGroupOID" value="{$ItemGroup/@OID}"/>
       <input type="hidden" name="ItemGroupRepeatKey" value="{$ItemGroupData/@ItemGroupRepeatKey}"/>
+      <input type="hidden" name="Repeating" value="{$ItemGroup/@Repeating}"/>
       <xsl:if test="$Paginate='true'">
         <input type="hidden" name="NewItemGroupRepeatKey" value="{$NumberOfRecords+1}"/>
       </xsl:if>
