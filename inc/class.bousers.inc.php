@@ -116,20 +116,4 @@ class bousers extends CommonFunctions
       return array($alixUserId,$account_lid);
     }
   }
-
-
-  /**
-   * @desc Get eGroupware Users lists - cf egroupware/admin/inc/class.uiaccounts.inc.php - list_users
-   */
-  public function getUserList($type,$start,$sort,$order){
-
-	$search_param = array(
-	'type' => $type,
-	'start' => $start,
-	'sort' => $sort,
-	'order' => $order,
-	);
-	
-	return $GLOBALS['egw']->accounts->search($search_param);
-	}
 }

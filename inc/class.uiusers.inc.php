@@ -110,13 +110,15 @@ class uiusers extends CommonFunctions
       $start = 0;
     } 
     
-    /*Get eGroupware Users lists - cf egroupware/admin/inc/class.uiaccounts.inc.php, and alixedc/inc/class.bousers.inc.php- list_users
-
-	*/
-
-	$type = 'accounts';
-	$account_info = $this->m_ctrl->bousers()->getUserList($type,$start,$sort,$order);
-	$total = $GLOBALS['egw']->accounts->total;
+    //Get eGroupware Users lists - cf egroupware/admin/inc/class.uiaccounts.inc.php - list_users
+		$search_param = array(
+			'type' => 'accounts',
+			'start' => $start,
+			'sort' => $sort,
+			'order' => $order,
+		);
+    $account_info = $GLOBALS['egw']->accounts->search($search_param);
+    $total = $GLOBALS['egw']->accounts->total;
     
     if($sort=="ASC"){
       $nextSort = "DESC";

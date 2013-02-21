@@ -89,12 +89,11 @@ class uidbadmin extends CommonFunctions{
       switch($_GET['action'])
       {
 	  	case 'ViewStatUsers' :
-             if($this->m_ctrl->boacl()->checkModuleAccess("viewStatUsers")){
-                $log_array = $this->getUserListActivity('log.error');
-				$htmlRet = $this->formatTableUserListActivity($log_array);
-             }else{
+              if($this->m_ctrl->boacl()->checkModuleAccess("viewStatUsers")){
+                $htmlRet = $this->getViewStatUsersInterface();
+              }else{
                 $this->addLog("Unauthorized Access {$_GET['action']} - Administrator has been notified",FATAL);
-             }
+              }
 	    break;
         case 'importDocInterface' :
               if($this->m_ctrl->boacl()->checkModuleAccess("importDoc")){
@@ -316,10 +315,8 @@ class uidbadmin extends CommonFunctions{
       $menu .= $this->getSubMenu("Clinical data", $submenu);                                                                                                                     
       unset($submenu);
 
-	  $submenu = $this->createMenuLink(array('menuaction' => $this->getCurrentApp(false).'.uietude.dbadminInterface', 'action' => 'ViewStatUsers'),"View Users Statistics");
-	
-	  $log_array = $this->getUserListActivity('log');
-	  $submenu .= $this->formatTableUserListActivity($log_array);
+	  $submenu = $this->createMenuLink(array('menuaction' => $this->getCurrentApp(false).'.uietude.dbadminInterface', 'action' => 'ViewStatUsers'),"View Users Statistics");  
+	  $submenu .= $this->getUserListActivity('LastActivity');
 	  $menu .= $this->getSubMenu("Users Statistics", $submenu);
 
       unset($submenu);
@@ -361,125 +358,130 @@ class uidbadmin extends CommonFunctions{
             </div>
           </div>";
   }
+  
+  public function getUserList($type,$sort,$order){
 
-  /**
-   * @desc this function return last action and log error of each users from ../../data/alixedc/log/
-   * @param $req_info = 'log' or 'log.error' ; 'log' -> return last user action ; 'log.error' -> return last user error
-   * @return $log_array = array[array[accounts_lid, log]]
-   */
-
-private function getUserListActivity($req_info)
-	{
-		$log_array = array();
-		$n = 0;
-		
-		$type = 'accounts';
-		$start = '0';
-		$sort = 'ASC';
-		$order = 'account_lid';
+	$search_param = array(
+	'type' => $type,
+	'sort' => $sort,
+	'order' => $order,
+	);
 	
-		$account_info = $this->m_ctrl->bousers()->getUserList($type,$start,$sort,$order);
+	$account_info = $GLOBALS['egw']->accounts->search($search_param);
+	return $account_info;
+	}
 
-		 foreach($account_info as $account)
-		 	{
-				if(file_exists("../../data/alixedc/log/prod_$account[account_lid].$req_info"))
-				{
-					$log_result = "";
-					$log_file = fopen("../../data/alixedc/log/prod_$account[account_lid].$req_info","r");
-					if($req_info == "log") // $req_info == "log"
-						{
-						$position = -12;
-						fseek($log_file, $position, SEEK_END);	
-						while(fgets($log_file, 12) != "NEW REQUEST")
-							{
+private function getUserListActivity($req_info){
+
+	$account_info = $this->getUserList('accounts','ASC','account_lid');
+
+	$htmlUsers = "<div id='log_table_div'><table class='log_table'>
+			<thead>
+				<tr class='log_table'>
+					<th class='log_table'>Login</th>";
+		if($req_info == "LastActivity"){
+					$htmlUsers .= "<th class='log_table'>LastActitivy</th>";
+					$req_info = "log";
+				}
+		else{
+
+					$htmlUsers .= "<th class='log_table'>Last Connection Time</th>";
+					$htmlUsers .= "<th class='log_table'>Last Error</th>";
+					$req_info = "log.error";
+				}
+				$htmlUsers .= "</tr>
+			</thead>";
+
+	 foreach($account_info as $account)
+	 {
+			if(file_exists("../../data/alixedc/log/prod_$account[account_lid].$req_info"))
+			{
+				$log_result = "";
+				$log_file = fopen("../../data/alixedc/log/prod_$account[account_lid].$req_info","r"); //lecture
+				
+				if($req_info == "log"){				
+					$position = -12;
+					fseek($log_file, $position, SEEK_END);
+						while(fgets($log_file, 12) != "NEW REQUEST"){
 							$position = $position - 1;
 							fseek($log_file, $position, SEEK_END);
 							}
-						while(fgetc($log_file) != "\n")
-							{
+						while(fgetc($log_file) != "\n"){
 							$position = $position + 1;
 							fseek($log_file, $position, SEEK_END);
 							}
 						fseek($log_file, $position + 1, SEEK_END); 
-						while (!feof($log_file))
-							{	
+						while (!feof($log_file)){	
 								$ligne_courante = fgets($log_file);	
-								if(strpos($ligne_courante,"END OF REQUEST") != true)
-									{
+								if(strpos($ligne_courante,"END OF REQUEST") != true){
 									$log_result .= $ligne_courante.'<br />';
 									}
-								else
-									{
+								else{
 									break;
 									}
-								}
-					 	 }
-					else // $req_info == "log.error"
-						{
-						$position = -11;
-						fseek($log_file, $position, SEEK_END);
-						$regex_date = "/([0-9]{4})-([0-9]{2})-([0-9]{2})/";
-						while(preg_match($regex_date, fgets($log_file, 11)) != 1)
-								{
-								$position = $position - 1;
-								fseek($log_file, $position, SEEK_END);
-								}
-							fseek($log_file, $position , SEEK_END);
-							$log_result = fgets($log_file);
-							while (!feof($log_file))
-								{	
-									$ligne_courante = fgets($log_file);	
-									$error_detail .= $ligne_courante.'<br />';
-								}
-						}
-						fclose($log_file);
+							}
 				}
-				else
-				{
-					$log_result = "No available activity";
+				else{
+					$position = -11;
+					fseek($log_file, $position, SEEK_END);
+					$regex_date = "/([0-9]{4})-([0-9]{2})-([0-9]{2})/";
+					while(preg_match($regex_date, fgets($log_file, 11)) != 1){
+							$position = $position - 1;
+							fseek($log_file, $position, SEEK_END);
+							}
+						fseek($log_file, $position , SEEK_END);
+						$log_result = fgets($log_file);
+						while (!feof($log_file)){	
+								$ligne_courante = fgets($log_file);	
+								$error_detail .= $ligne_courante.'<br />';
+								}
 				}
-			
-				$longueur_chaine = strlen($log_result);
-			
-				if(substr($log_result, -6) == '<br />')
-					{
-					 $log_result = substr($log_result, 0, $longueur_chaine-6);	
-					}
-					
-			$log_array[$n] = array($account[account_lid], $log_result);
-			$n = $n + 1;
+				fclose($log_file);
 			}
-			
-			return $log_array;
-	}
+			else 
+			{
+				$log_result = "No available activity";
+			}
 
-  /**
-   * @desc this function return html formated table contening last action or log error of each users from ../../data/alixedc/log/ ; see getUserListActivity($req_info)
-   * @param log_array = array[array[accounts_lid, log]]
-   * @return string html formated table
-   */
-private function formatTableUserListActivity($log_array)
-	{
-		$htmlUsers = "<div id='log_table_div'>
-						<table class='log_table'>
-								<tr class='log_table'>
-									<th class='log_table'>Login</th>
-									<th class='log_table'>LastActitivy</th>
-								</tr>";
-						
-		foreach($log_array as $data)
-		{
-			$htmlUsers .= "	<tr class='log_table'>
-								<td class='log_table'>$data[0]</td>
-								<td class='log_table'>$data[1]</td>
-							</tr>";
+		$longueur_chaine = strlen($log_result);
+		if(substr($log_result, -6) == '<br />'){
+			 $log_result = substr($log_result, 0, $longueur_chaine-6);	
+			}
+
+	        $htmlUsers .= "<tr class='log_table'>
+				       <td class='log_table'>".$account['account_lid']."</td>";
+
+		if($req_info == "log"){
+			$htmlUsers .= "<td class='log_table'>".$log_result."</td>";
+		}
+		else{	
+			$htmlUsers .= "<td class='log_table'>date de connection</td>";
+			$htmlUsers .= "<td class='log_table'>".$log_result."</td>";
 		}
 		
-		$htmlUsers .= "</table>
-			</div>";
-			
-		return $htmlUsers;								
+	       $htmlUsers .= "</tr>";
 	}
+	
+	if($req_info != "log"){
+			//creation de l'objet bolog
+			//$this->bolog =& CreateObject('admin.bolog');
+			$this->admin_accesslog =& CreateObject('admin.admin_accesslog');
+	
+			//accé a la fonction get_error_e() de admin/class.bolog.inc.php
+			//echo $this->bolog->get_error_e(array('orderby'=>array('log_id','log_msg_log_id')));
+			/* $query = array('start'          =>	0,
+					'search'	=>	'account_id',
+					'order'          =>	'li',
+					'sort'           =>	'DESC',	
+					);
+	
+			*/
+			$wahou = $this->admin_accesslog->index();
+	}
+	
+	$htmlUsers .= "</table></div>";
+	return $htmlUsers;
+  }
 
   private function getMainInterface($containerName)
   {
