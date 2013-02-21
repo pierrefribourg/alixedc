@@ -195,6 +195,7 @@ class boacl extends CommonFunctions
     foreach($moduleNames as $moduleName){
       switch($moduleName)
       {
+		case "viewStatUsers": //view user statistics in class.uidbadmin.inc.php
         case "importDoc" : //importing documents such as the BLANK, Subjects and Metadata into the database
         case "deleteDoc" : //deleting documents such as the BLANK, Subjects and Metadata from the database
         case "viewDocs" : //viewing the content of documents such as the BLANK, Subjects and Metadata from the database
